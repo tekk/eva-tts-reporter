@@ -1,0 +1,14 @@
+{
+    "subscription_type": "free",
+    "language": "sk",
+    "connection": {
+        "use_ssl": false,
+        "verify_ssl_certs": false,
+        "use_proxy": false,
+        "timeout_secs": 10
+    },
+    "proxies": {
+        "http": "",
+        "https": ""
+    }
+}
