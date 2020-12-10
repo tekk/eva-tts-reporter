@@ -1,22 +1,31 @@
+import sys
+import json
 from google.cloud import texttospeech
 from pyowm.owm import OWM
+from pyowm.utils import timestamps, formatting
 from pyowm.utils.config import get_default_config
+from pygments import highlight
+#from pygments.lexers import JsonLexer
+#from pygments.formatters import TerminalFormatter
+from pygments.lexers.data import JsonLexer 
+from pygments.formatters.terminal import TerminalFormatter
+
 config_dict = get_default_config()
 config_dict['language'] = 'sk'
 owm = OWM('6e4952810a883e9fb0238c0666a0bb1d', config_dict)
 reg = owm.city_id_registry()
 list_of_locations = reg.locations_for('Banská Bystrica', country='SK')
-moscow = list_of_locations[0]
-lat = moscow.lat
-lon = moscow.lon
+bb = list_of_locations[0]
+lat = bb.lat
+lon = bb.lon
 mgr = owm.weather_manager()
-daily_forecast = mgr.one_call(lat, lon)
-tomorrow = timestamps.tomorrow()                                   # datetime object for tomorrow
-weather = daily_forecaster.get_weather_at(tomorrow)                # the weather you're looking for
+onecall = mgr.one_call(lat, lon)
+weather = onecall.forecast_daily[0]
 
-print(weather)
+json_str = json.dumps(weather.__dict__, indent=4, sort_keys=True)
+print(highlight(json_str, JsonLexer(), TerminalFormatter()))
 
-sys.exit(0)
+raise SystemExit
 
 one_call.forecast_daily[0].temperature('celsius').get('feels_like_morn', None) #Ex.: 7.7
 
